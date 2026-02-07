@@ -27,3 +27,11 @@ homebrew_casks:
     homepage: https://github.com/martinlindner/tmux-launcher
     description: A smart tmux wrapper that automatically manages session attachment
     license: MIT
+    url:
+      verified: github.com/martinlindner/tmux-launcher
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/tmux-launcher"]
+          end
