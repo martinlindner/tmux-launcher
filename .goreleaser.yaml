@@ -9,9 +9,6 @@ builds:
       - amd64
       - arm64
 
-archives:
-  - format: tar.gz
-
 checksum:
   name_template: "checksums.txt"
 
