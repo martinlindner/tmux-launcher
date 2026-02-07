@@ -12,7 +12,7 @@ Or use the Makefile:
 
 ```bash
 make build      # build binary
-make install    # build and copy to ~/bin/
+make install    # build and copy to ~/.local/bin/
 make clean      # remove binary
 ```
 

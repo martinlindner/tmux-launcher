@@ -12,7 +12,7 @@ A smart tmux wrapper that automatically manages session attachment. Instead of m
 
 ## Installation
 
-Requires Go 1.21+ and tmux.
+Requires Go 1.25+ and tmux.
 
 ```bash
 git clone https://github.com/martinlindner/tmux-launcher.git
