@@ -12,6 +12,14 @@ A smart tmux wrapper that automatically manages session attachment. Instead of m
 
 ## Installation
 
+### Homebrew
+
+```bash
+brew install martinlindner/tap/tmux-launcher
+```
+
+### From source
+
 Requires Go 1.25+ and tmux.
 
 ```bash

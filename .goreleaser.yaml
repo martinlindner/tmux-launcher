@@ -2,6 +2,8 @@ version: 2
 
 builds:
   - binary: tmux-launcher
+    ldflags:
+      - -s -w -X main.version={{.Version}}
     goos:
       - linux
       - darwin

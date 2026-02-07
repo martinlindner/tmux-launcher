@@ -2,6 +2,12 @@
 
 A smart tmux wrapper written in Go that automatically manages session attachment.
 
+## Install
+
+```bash
+brew install martinlindner/tap/tmux-launcher
+```
+
 ## Build
 
 ```bash

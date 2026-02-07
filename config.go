@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -49,6 +50,12 @@ func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 
 	// 3. CLI flags (override config file)
 	f := pflag.NewFlagSet("tmux-launcher", pflag.ContinueOnError)
+	f.Usage = func() {
+		fmt.Fprintf(os.Stderr, "tmux-launcher %s\n\n", version)
+		fmt.Fprintf(os.Stderr, "Usage: tmux-launcher [flags]\n\nFlags:\n")
+		f.PrintDefaults()
+	}
+	f.BoolP("version", "v", false, "print version and exit")
 	f.Bool("allow-nested", false, "allow running inside an existing tmux session")
 	f.Bool("no-auto-attach", false, "always show the TUI picker instead of auto-attaching")
 	f.Bool("no-auto-new-session", false, "show the TUI picker even when no sessions exist")
@@ -57,6 +64,11 @@ func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 			os.Exit(0)
 		}
 		return Config{}, err
+	}
+
+	if v, _ := f.GetBool("version"); v {
+		fmt.Printf("tmux-launcher %s\n", version)
+		os.Exit(0)
 	}
 
 	var cfg Config
