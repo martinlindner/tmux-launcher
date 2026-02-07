@@ -27,7 +27,7 @@ make clean      # remove binary
 
 Config file: `~/.config/tmux-launcher/config.yaml` (optional)
 
-CLI flags `--allow-nested` and `--no-auto-attach` override config file values.
+CLI flags `--allow-nested`, `--no-auto-attach`, and `--no-auto-new-session` override config file values.
 
 ## Dependencies
 
