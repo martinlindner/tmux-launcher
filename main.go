@@ -31,6 +31,11 @@ func run() error {
 		return err
 	}
 
+	// Auto-create a new session when none exist
+	if len(sessions) == 0 && cfg.AutoNewSession {
+		return execTmux("new-session")
+	}
+
 	// Auto-attach to a single detached session
 	if cfg.AutoAttach {
 		var detached []Session
