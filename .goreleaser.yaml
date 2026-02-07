@@ -19,7 +19,7 @@ changelog:
       - "^docs:"
       - "^chore:"
 
-brews:
+homebrew_casks:
   - repository:
       owner: martinlindner
       name: homebrew-tap
