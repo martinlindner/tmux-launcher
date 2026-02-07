@@ -13,8 +13,9 @@ import (
 )
 
 type Config struct {
-	AllowNested bool `koanf:"allow_nested"`
-	AutoAttach  bool `koanf:"auto_attach"`
+	AllowNested    bool `koanf:"allow_nested"`
+	AutoAttach     bool `koanf:"auto_attach"`
+	AutoNewSession bool `koanf:"auto_new_session"`
 }
 
 func loadConfig() (Config, error) {
@@ -26,8 +27,9 @@ func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 
 	// 1. Defaults
 	k.Load(confmap.Provider(map[string]any{
-		"allow_nested": false,
-		"auto_attach":  true,
+		"allow_nested":     false,
+		"auto_attach":      true,
+		"auto_new_session": true,
 	}, "."), nil)
 
 	// 2. Config file (optional)
@@ -49,6 +51,7 @@ func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 	f := pflag.NewFlagSet("tmux-launcher", pflag.ContinueOnError)
 	f.Bool("allow-nested", false, "allow running inside an existing tmux session")
 	f.Bool("no-auto-attach", false, "always show the TUI picker instead of auto-attaching")
+	f.Bool("no-auto-new-session", false, "show the TUI picker even when no sessions exist")
 	if err := f.Parse(args); err != nil {
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
@@ -69,6 +72,10 @@ func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 	if f.Changed("no-auto-attach") {
 		v, _ := f.GetBool("no-auto-attach")
 		cfg.AutoAttach = !v
+	}
+	if f.Changed("no-auto-new-session") {
+		v, _ := f.GetBool("no-auto-new-session")
+		cfg.AutoNewSession = !v
 	}
 
 	return cfg, nil
