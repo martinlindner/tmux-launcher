@@ -16,22 +16,35 @@ func main() {
 }
 
 func run() error {
+	cfg, err := loadConfig()
+	if err != nil {
+		return err
+	}
+
+	// Nesting guard
+	if _, nested := os.LookupEnv("TMUX"); nested && !cfg.AllowNested {
+		return fmt.Errorf("already inside a tmux session (use --allow-nested to override)")
+	}
+
 	sessions, err := getSessions()
 	if err != nil {
 		return err
 	}
 
-	// No sessions — create new
-	if len(sessions) == 0 {
-		return execTmux("new-session")
+	// Auto-attach to a single detached session
+	if cfg.AutoAttach {
+		var detached []Session
+		for _, s := range sessions {
+			if !s.Attached {
+				detached = append(detached, s)
+			}
+		}
+		if len(detached) == 1 {
+			return execTmux("attach-session", "-t", detached[0].Name)
+		}
 	}
 
-	// Single detached session — attach
-	if len(sessions) == 1 && !sessions[0].Attached {
-		return execTmux("attach-session", "-t", sessions[0].Name)
-	}
-
-	// Multiple sessions or attached — show picker
+	// Show TUI picker
 	p := tea.NewProgram(newTUI(sessions), tea.WithAltScreen())
 	result, err := p.Run()
 	if err != nil {

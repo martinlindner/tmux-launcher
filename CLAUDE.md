@@ -18,15 +18,24 @@ make clean      # remove binary
 
 ## Project Structure
 
-- `main.go` — Entry point, decision logic (no sessions → new, single detached → attach, otherwise → TUI), `execTmux` helper using `syscall.Exec`
+- `main.go` — Entry point, decision logic, nesting guard, `execTmux` helper using `syscall.Exec`
+- `config.go` — Config struct, layered loading via koanf (defaults → YAML file → CLI flags)
 - `session.go` — `Session` struct, tmux querying via `list-sessions -F`, output parsing
 - `tui.go` — Bubble Tea TUI model using `bubbles/list` for session picker
+
+## Configuration
+
+Config file: `~/.config/tmux-launcher/config.yaml` (optional)
+
+CLI flags `--allow-nested` and `--no-auto-attach` override config file values.
 
 ## Dependencies
 
 - [bubbletea](https://github.com/charmbracelet/bubbletea) — TUI framework
 - [bubbles](https://github.com/charmbracelet/bubbles) — List component
 - [lipgloss](https://github.com/charmbracelet/lipgloss) — Styling
+- [koanf](https://github.com/knadh/koanf) — Config loading (defaults, YAML file, flags)
+- [pflag](https://github.com/spf13/pflag) — POSIX-style CLI flag parsing
 
 ## Conventions
 
