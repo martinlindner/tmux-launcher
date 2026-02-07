@@ -18,6 +18,10 @@ type Config struct {
 }
 
 func loadConfig() (Config, error) {
+	return loadConfigFrom(os.Args[1:], "")
+}
+
+func loadConfigFrom(args []string, cfgFile string) (Config, error) {
 	k := koanf.New(".")
 
 	// 1. Defaults
@@ -27,11 +31,15 @@ func loadConfig() (Config, error) {
 	}, "."), nil)
 
 	// 2. Config file (optional)
-	home, err := os.UserHomeDir()
-	if err == nil {
-		cfgPath := filepath.Join(home, ".config", "tmux-launcher", "config.yaml")
-		if _, err := os.Stat(cfgPath); err == nil {
-			if err := k.Load(file.Provider(cfgPath), yaml.Parser()); err != nil {
+	if cfgFile == "" {
+		home, err := os.UserHomeDir()
+		if err == nil {
+			cfgFile = filepath.Join(home, ".config", "tmux-launcher", "config.yaml")
+		}
+	}
+	if cfgFile != "" {
+		if _, err := os.Stat(cfgFile); err == nil {
+			if err := k.Load(file.Provider(cfgFile), yaml.Parser()); err != nil {
 				return Config{}, err
 			}
 		}
@@ -41,7 +49,7 @@ func loadConfig() (Config, error) {
 	f := pflag.NewFlagSet("tmux-launcher", pflag.ContinueOnError)
 	f.Bool("allow-nested", false, "allow running inside an existing tmux session")
 	f.Bool("no-auto-attach", false, "always show the TUI picker instead of auto-attaching")
-	if err := f.Parse(os.Args[1:]); err != nil {
+	if err := f.Parse(args); err != nil {
 		if errors.Is(err, pflag.ErrHelp) {
 			os.Exit(0)
 		}
