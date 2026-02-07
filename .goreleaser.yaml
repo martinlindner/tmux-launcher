@@ -18,3 +18,12 @@ changelog:
     exclude:
       - "^docs:"
       - "^chore:"
+
+brews:
+  - repository:
+      owner: martinlindner
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    homepage: https://github.com/martinlindner/tmux-launcher
+    description: A smart tmux wrapper that automatically manages session attachment
+    license: MIT

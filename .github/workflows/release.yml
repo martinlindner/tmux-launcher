@@ -26,9 +26,19 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Generate Homebrew tap token
+        id: homebrew-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.HOMEBREW_TAP_APP_ID }}
+          private-key: ${{ secrets.HOMEBREW_TAP_APP_PRIVATE_KEY }}
+          owner: martinlindner
+          repositories: homebrew-tap
+
       - uses: goreleaser/goreleaser-action@v6
         with:
           version: "~> v2"
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_TOKEN: ${{ steps.homebrew-token.outputs.token }}
