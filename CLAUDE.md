@@ -1,6 +1,6 @@
 # tmux-launcher
 
-A smart tmux wrapper/entrypoint for WSL2 written in Go.
+A smart tmux wrapper written in Go that automatically manages session attachment.
 
 ## Build
 
