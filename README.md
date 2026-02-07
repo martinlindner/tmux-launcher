@@ -17,7 +17,7 @@ Requires Go 1.21+ and tmux.
 ```bash
 git clone https://github.com/martinlindner/tmux-launcher.git
 cd tmux-launcher
-make install  # builds and copies to ~/bin/
+make install  # builds and copies to ~/.local/bin/
 ```
 
 ## Usage
@@ -51,13 +51,13 @@ CLI flags override config file values.
 **As Windows Terminal default command** (in your WSL profile settings):
 
 ```json
-{ "commandline": "wsl.exe ~ -e /home/<user>/bin/tmux-launcher" }
+{ "commandline": "wsl.exe ~ -e /home/<user>/.local/bin/tmux-launcher" }
 ```
 
 **From shell config** (`~/.bashrc` or `~/.zshrc`):
 
 ```bash
 if [ -z "$TMUX" ]; then
-    exec ~/bin/tmux-launcher
+    exec ~/.local/bin/tmux-launcher
 fi
 ```

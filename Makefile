@@ -1,7 +1,7 @@
 .PHONY: build install clean
 
 BINARY = tmux-launcher
-INSTALL_DIR = $(HOME)/bin
+INSTALL_DIR = $(HOME)/.local/bin
 
 build:
 	go build -o $(BINARY) .
